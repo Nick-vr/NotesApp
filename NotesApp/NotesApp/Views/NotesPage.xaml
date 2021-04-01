@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:NotesApp.Models;assembly=NotesApp"
+             x:Class="NotesApp.Views.NotesPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Note"
+                     Clicked="AddNoteClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <!--CollectionView needs a name so we can address it in the code-behind-->
+            <CollectionView x:Name="myNotes"
+                            Margin="20"
+                            SelectionMode="Single"
+                            SelectionChanged="myNotes_SelectionChanged">
+
+                <!--<CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="10" />
+                </CollectionView.ItemsLayout>-->
+
+                <CollectionView.ItemTemplate>
+                    <!--Generate markup X amount of times for each element in collectionview.itemssource-->
+                    <DataTemplate>
+                        <StackLayout x:DataType="models:Note">
+                            <Label Text="{Binding Text}"
+                                   FontSize="Medium" />
+
+                            <Label Text="{Binding Date}"
+                                   FontSize="Small"
+                                   TextColor="Silver" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
