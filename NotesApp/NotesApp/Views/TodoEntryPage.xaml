@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NotesApp.Views.TodoEntryPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Editor x:Name="Editor"
+                    Placeholder="What todo?"
+                    Text="{Binding Text}"
+                    HeightRequest="100" />
+            <Grid ColumnDefinitions=""></Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

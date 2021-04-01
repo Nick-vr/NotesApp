@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:NotesApp.Models;assembly=NotesApp"
              x:Class="NotesApp.Views.TodoPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Todo"
+                     Clicked="AddTodoClicked" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <CollectionView x:Name="MyTodos"
+                            Margin="20"
+                            SelectionMode="Single"
+                            SelectionChanged="MyTodos_OnSelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout x:DataType="models:Todo">
+                            <Label Text="{Binding Text}"
+                                   FontSize="Medium" />
+                            <Label Text="{Binding Date}"
+                                   FontSize="Small"
+                                   TextColor="LightCoral" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

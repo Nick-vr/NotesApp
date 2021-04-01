@@ -17,11 +17,6 @@
                             SelectionMode="Single"
                             SelectionChanged="myNotes_SelectionChanged">
 
-                <!--<CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical"
-                                       ItemSpacing="10" />
-                </CollectionView.ItemsLayout>-->
-
                 <CollectionView.ItemTemplate>
                     <!--Generate markup X amount of times for each element in collectionview.itemssource-->
                     <DataTemplate>
