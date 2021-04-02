@@ -3,12 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotesApp.Views.TodoEntryPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Margin="20">
             <Editor x:Name="Editor"
                     Placeholder="What todo?"
                     Text="{Binding Text}"
                     HeightRequest="100" />
-            <Grid ColumnDefinitions=""></Grid>
+
+            <Grid ColumnDefinitions="*,*">
+                <StackLayout>
+                    <Label Text="Deadline" />
+                    <DatePicker Date="{Binding Deadline}"
+                                HorizontalOptions="Start" />
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+                    <Label Text="Is priority"
+                           HorizontalOptions="End" />
+                    <Switch ThumbColor="#3D3D3D"
+                            OnColor="#3D3D3D" />
+                </StackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*">
+                <Button Text="Save"
+                        Clicked="OnSaveButtonClicked" />
+                <Button Text="Delete"
+                        Grid.Column="1"
+                        Clicked="OnDeleteButtonClicked" />
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

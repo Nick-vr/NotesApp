@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NotesApp.Models;
+using NotesApp.Repositories;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,45 +14,37 @@ namespace NotesApp.Views
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public partial class TodoEntryPage : ContentPage
     {
-        public string ItemId { set => LoadTodo(value); }
+        private readonly ITodoRepository _todoRepository;
+        public int ItemId { set => LoadTodo(value); }
 
         public TodoEntryPage()
         {
             InitializeComponent();
+            _todoRepository = new TodoRepository();
             BindingContext = new Todo();
         }
 
-        private void LoadTodo(string fileName)
+        private void LoadTodo(int id)
         {
-            var todo = new Todo
-            {
-                FileName = fileName,
-                Text = File.ReadAllText(fileName),
-                Date = File.GetCreationTime(fileName),
-                Deadline = File.GetCreationTime(fileName).AddDays(7),
-                Completed = false,
-                Priority = 1,
-            };
+            BindingContext = _todoRepository.GetTodo(id);
+        }
 
-            BindingContext = todo;
+        public void SaveTodo(Todo todo)
+        {
+            _todoRepository.SaveTodo(todo);
+        }
+
+        public void DeleteTodo(Todo todo)
+        {
+            _todoRepository.DeleteTodo(todo);
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
             if (BindingContext is Todo todo)
             {
-                // Check if file already exists
-                if (string.IsNullOrWhiteSpace(todo.FileName))
-                {
-                    // Access a file in an app's sandbox
-                    var _fileName = Path.Combine(App.FolderPath, $"{Path.GetRandomFileName()}.notes.txt");
-                    File.WriteAllText(_fileName, Editor.Text);
-                }
-                else
-                {
-                    // Update existing file
-                    File.WriteAllText(todo.FileName, Editor.Text);
-                }
+                todo.Date = DateTime.Now;
+                SaveTodo(todo);
             }
 
             // Navigate backwards -> Go back to previous screen
@@ -60,13 +53,9 @@ namespace NotesApp.Views
 
         private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
-            if (BindingContext is Todo todo)
-            {
-                if (File.Exists(todo.FileName))
-                {
-                    File.Delete(todo.FileName);
-                }
-            }
+            var todo = BindingContext as Todo;
+
+            DeleteTodo(todo);
 
             // Navigate backwards -> Go back to previous screen
             await Shell.Current.GoToAsync("..");

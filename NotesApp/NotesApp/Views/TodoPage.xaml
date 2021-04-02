@@ -17,13 +17,34 @@
                             SelectionChanged="MyTodos_OnSelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout x:DataType="models:Todo">
-                            <Label Text="{Binding Text}"
-                                   FontSize="Medium" />
-                            <Label Text="{Binding Date}"
-                                   FontSize="Small"
-                                   TextColor="LightCoral" />
-                        </StackLayout>
+                        <Grid ColumnDefinitions="*,*"
+                              x:DataType="models:Todo">
+
+                            <StackLayout Orientation="Horizontal">
+                                <CheckBox x:Name="CheckCompleted"
+                                          Color="#161616"
+                                          IsChecked="{Binding Completed}"
+                                          CheckedChanged="OnCheckboxChecked" />
+                                <StackLayout>
+                                    <Label Text="{Binding Text}"
+                                           FontSize="Medium"
+                                           TextColor="#161616" />
+                                    <Label Text="{Binding Date}"
+                                           FontSize="Small"
+                                           TextColor="LightGray" />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="Deadline"
+                                       FontSize="Small"
+                                       TextColor="LightCoral"
+                                       HorizontalOptions="End" />
+                                <Label Text="{Binding Deadline}"
+                                       FontSize="Small"
+                                       TextColor="LightGray"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
