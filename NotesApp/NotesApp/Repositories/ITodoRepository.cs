@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NotesApp.Models;
 
 namespace NotesApp.Repositories
 {
     public interface ITodoRepository
     {
-        Todo GetTodo(int id);
+        Task<Todo> GetTodoAsync(int id);
 
-        IEnumerable<Todo> GetAllTodos();
+        Task<IEnumerable<Todo>> GetAllTodosAsync();
 
-        void SaveTodo(Todo todo);
+        Task SaveTodoAsync(Todo todo);
 
-        void DeleteTodo(Todo todo);
+        Task DeleteTodoAsync(Todo todo);
     }
 }

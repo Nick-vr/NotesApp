@@ -15,7 +15,7 @@ namespace NotesApp.Views
     public partial class TodoEntryPage : ContentPage
     {
         private readonly ITodoRepository _todoRepository;
-        public int ItemId { set => LoadTodo(value); }
+        public int ItemId { set => _ = LoadTodo(value); }
 
         public TodoEntryPage()
         {
@@ -24,19 +24,19 @@ namespace NotesApp.Views
             BindingContext = new Todo();
         }
 
-        private void LoadTodo(int id)
+        private async Task LoadTodo(int id)
         {
-            BindingContext = _todoRepository.GetTodo(id);
+            BindingContext = await _todoRepository.GetTodoAsync(id).ConfigureAwait(false);
         }
 
-        public void SaveTodo(Todo todo)
+        public async Task SaveTodo(Todo todo)
         {
-            _todoRepository.SaveTodo(todo);
+            await _todoRepository.SaveTodoAsync(todo).ConfigureAwait(false);
         }
 
-        public void DeleteTodo(Todo todo)
+        public async Task DeleteTodo(Todo todo)
         {
-            _todoRepository.DeleteTodo(todo);
+            await _todoRepository.DeleteTodoAsync(todo).ConfigureAwait(false);
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace NotesApp.Views
             if (BindingContext is Todo todo)
             {
                 todo.Date = DateTime.Now;
-                SaveTodo(todo);
+                await SaveTodo(todo).ConfigureAwait(false);
             }
 
             // Navigate backwards -> Go back to previous screen
@@ -55,7 +55,7 @@ namespace NotesApp.Views
         {
             var todo = BindingContext as Todo;
 
-            DeleteTodo(todo);
+            await DeleteTodo(todo).ConfigureAwait(false);
 
             // Navigate backwards -> Go back to previous screen
             await Shell.Current.GoToAsync("..");

@@ -2,52 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NotesApp.Models;
 
 namespace NotesApp.Repositories
 {
     public class TodoRepository : ITodoRepository
     {
-        public Todo GetTodo(int id)
+        public async Task<Todo> GetTodoAsync(int id)
         {
             using (var dbContext = new NotesContext())
             {
-                var todo = dbContext.Todos.Find(id);
+                var todo = await dbContext.Todos.FindAsync(id).ConfigureAwait(false);
                 return todo;
             }
         }
 
-        public IEnumerable<Todo> GetAllTodos()
+        public async Task<IEnumerable<Todo>> GetAllTodosAsync()
         {
             using (var dbContext = new NotesContext())
             {
-                return dbContext.Todos.ToList();
+                var todos = await dbContext.Todos.ToListAsync();
+                return todos;
             }
         }
 
-        public void SaveTodo(Todo todo)
+        public async Task SaveTodoAsync(Todo todo)
         {
             using (var dbContext = new NotesContext())
             {
                 if (todo.Id == 0)
                 {
-                    dbContext.Todos.Add(todo);
+                    await dbContext.Todos.AddAsync(todo).ConfigureAwait(false);
                 }
                 else
                 {
                     dbContext.Todos.Update(todo);
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
-        public void DeleteTodo(Todo todo)
+        public async Task DeleteTodoAsync(Todo todo)
         {
             using (var dbContext = new NotesContext())
             {
                 dbContext.Remove(todo);
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }

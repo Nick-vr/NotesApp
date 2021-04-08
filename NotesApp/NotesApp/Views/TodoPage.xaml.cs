@@ -24,20 +24,20 @@ namespace NotesApp.Views
             BindingContext = new Todo();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            var todos = _todoRepository.GetAllTodos();
+            var todos = _todoRepository.GetAllTodosAsync();
 
-            MyTodos.ItemsSource = todos;
+            MyTodos.ItemsSource = await todos;
         }
 
-        private IEnumerable<Todo> GetAllTodos()
+        private async Task<IEnumerable<Todo>> GetAllTodos()
         {
-            var todos = _todoRepository.GetAllTodos();
+            var todos = _todoRepository.GetAllTodosAsync();
 
-            return todos;
+            return await todos;
         }
 
         private async void MyTodos_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,7 +55,7 @@ namespace NotesApp.Views
         {
             if (sender is CheckBox checkbox && checkbox.BindingContext is Todo checklist)
             {
-                _todoRepository.SaveTodo(checklist);
+                _todoRepository.SaveTodoAsync(checklist);
             }
         }
     }

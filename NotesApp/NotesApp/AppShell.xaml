@@ -50,10 +50,6 @@
         <ShellContent Title="Todo's"
                       Icon="icon_todo.png"
                       ContentTemplate="{DataTemplate myNamespace:TodoPage}" />
-
-        <ShellContent Title="About"
-                      Icon="icon_about.png"
-                      ContentTemplate="{DataTemplate myNamespace:AboutPage}" />
     </TabBar>
 
     <!--
